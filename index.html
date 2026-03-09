@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TechConf 2026</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --tg-theme-bg-color: #ffffff;
+      --tg-theme-text-color: #000000;
+      --primary-color: #0088cc;
+      --secondary-color: #f5f5f5;
+      --card-bg: #ffffff;
+      --border-radius: 12px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--tg-theme-bg-color);
+      color: var(--tg-theme-text-color);
+      line-height: 1.5;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .app { max-width: 600px; margin: 0 auto; padding: 16px; padding-bottom: 80px; }
+    
+    /* Header */
+    .header {
+      text-align: center; margin-bottom: 24px; padding: 24px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: var(--border-radius); color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .header h1 { font-size: 26px; margin-bottom: 8px; font-weight: 800; }
+    .header p { opacity: 0.9; font-size: 15px; }
+    .header .date { margin-top: 8px; font-weight: 600; background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; }
+
+    /* Tabs Navigation */
+    .tabs {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--card-bg);
+      display: flex; justify-content: space-around;
+      padding: 12px 8px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      z-index: 100;
+      border-top: 1px solid var(--secondary-color);
+    }
+    .tab-btn {
+      background: none; border: none;
+      font-size: 11px; color: #888;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; cursor: pointer; flex: 1;
+      transition: color 0.2s;
+    }
+    .tab-btn span { font-size: 20px; }
+    .tab-btn.active { color: var(--primary-color); font-weight: 600; }
+
+    /* Content */
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 16px; margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .card h3 { font-size: 17px; margin-bottom: 6px; color: var(--primary-color); }
+    .card p { font-size: 14px; color: #555; margin-bottom: 4px; }
+    .card .meta { font-size: 12px; color: #888; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .card .speaker { font-style: italic; font-size: 13px; color: #666; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--secondary-color); }
+
+    /* Speakers */
+    .speaker-card { text-align: center; padding: 20px; }
+    .speaker-avatar { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 12px; object-fit: cover; border: 3px solid var(--secondary-color); }
+    .speaker-card h3 { font-size: 16px; margin-bottom: 4px; }
+    .speaker-card p { font-size: 13px; color: #666; }
+    .speaker-card .company { font-weight: 600; color: var(--primary-color); }
+
+    /* Form */
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px; border: 1px solid #ddd;
+      border-radius: 8px; font-size: 15px; background: var(--tg-theme-bg-color); color: var(--tg-theme-text-color);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--primary-color);
+    }
+    .submit-btn {
+      width: 100%; padding: 14px; background: var(--primary-color);
+      color: white; border: none; border-radius: 8px;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .submit-btn:active { opacity: 0.8; }
+    .submit-btn:disabled { background: #ccc; }
+    .success-message {
+      display: none; background: #4CAF50; color: white;
+      padding: 20px; border-radius: var(--border-radius); text-align: center;
+    }
+
+    /* Map */
+    .map-container { border-radius: var(--border-radius); overflow: hidden; margin-bottom: 16px; height: 250px; background: #eee; }
+    .map-container iframe { width: 100%; height: 100%; border: none; }
+    .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .action-btn {
+      padding: 12px; background: var(--secondary-color);
+      border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500;
+    }
+
+    h2 { font-size: 20px; margin-bottom: 16px; }
+    .section-title { font-size: 18px; font-weight: 700; margin: 20px 0 12px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>🚀 TechConf 2026</h1>
+      <p>Конференция будущих технологий</p>
+      <div class="date">📅 15-16 Мая 2026</div>
+    </header>
+
+    <!-- Расписание -->
+    <div id="schedule" class="tab-content active">
+      <h2>📅 Расписание</h2>
+      <div class="card">
+        <div class="meta">⏰ 09:00 • 60 мин</div>
+        <h3>Регистрация участников</h3>
+        <p>Получение бейджей и приветственных материалов</p>
+      </div>
+      <div class="card">
+        <div class="meta">⏰ 10:00 • 45 мин • 🎯 Keynote</div>
+        <h3>Открытие конференции</h3>
+        <p>Приветственное слово организаторов</p>
+        <div class="speaker">🎤 Александр Петров</div>
+      </div>
+      <div class="card">
+        <div class="meta">⏰ 11:00 • 60 мин • 🎯 Keynote</div>
+        <h3>Искусственный интеллект в бизнесе</h3>
+        <p>Практические кейсы внедрения AI</p>
+        <div class="speaker">🎤 Мария Иванова</div>
+      </div>
+      <div class="card">
+        <div class="meta">⏰ 12:30 • 60 мин • 🤝 Нетворкинг</div>
+        <h3>Обед и нетворкинг</h3>
+        <p>Время для общения и обмена контактами</p>
+      </div>
+      <div class="card">
+        <div class="meta">⏰ 14:00 • 90 мин • 🛠️ Воркшоп</div>
+        <h3>Воркшоп: Разработка на Python</h3>
+        <p>Практическое занятие для разработчиков</p>
+        <div class="speaker">🎤 Дмитрий Соколов</div>
+      </div>
+      <div class="card">
+        <div class="meta">⏰ 16:00 • 60 мин • 🎯 Keynote</div>
+        <h3>Будущее веб-разработки</h3>
+        <p>Тренды и технологии 2024-2025</p>
+        <div class="speaker">🎤 Елена Козлова</div>
+      </div>
+      <div class="card">
+        <div class="meta">⏰ 17:30 • 120 мин • 🎉 Party</div>
+        <h3>Закрытие и вечеринка</h3>
+        <p>Награждение спикеров и неформальное общение</p>
+      </div>
+    </div>
+
+    <!-- Спикеры -->
+    <div id="speakers" class="tab-content">
+      <h2>🎤 Спикеры</h2>
+      <div class="card speaker-card">
+        <img src="https://image.qwenlm.ai/public_source/0e3e1bc2-bbf8-4849-9c67-fb4a9fab40ed/113b59c77-ead5-456d-8fed-915623d8b81c.png" alt="Александр Петров" class="speaker-avatar">
+        <h3>Александр Петров</h3>
+        <p>CEO & Founder</p>
+        <p class="company">TechVision Labs</p>
+      </div>
+      <div class="card speaker-card">
+        <img src="https://image.qwenlm.ai/public_source/0e3e1bc2-bbf8-4849-9c67-fb4a9fab40ed/1ead6116d-849c-41d1-9463-c85533ffc70b.png" alt="Мария Иванова" class="speaker-avatar">
+        <h3>Мария Иванова</h3>
+        <p>Head of AI Research</p>
+        <p class="company">Neural Systems Inc.</p>
+      </div>
+      <div class="card speaker-card">
+        <img src="https://image.qwenlm.ai/public_source/0e3e1bc2-bbf8-4849-9c67-fb4a9fab40ed/17382790a-0ed1-4621-8b16-878e4d79f26f.png" alt="Дмитрий Соколов" class="speaker-avatar">
+        <h3>Дмитрий Соколов</h3>
+        <p>Senior Python Developer</p>
+        <p class="company">CodeCraft Studio</p>
+      </div>
+      <div class="card speaker-card">
+        <img src="https://image.qwenlm.ai/public_source/0e3e1bc2-bbf8-4849-9c67-fb4a9fab40ed/151859ff3-3254-41d7-8853-6e134895ce79.png" alt="Елена Козлова" class="speaker-avatar">
+        <h3>Елена Козлова</h3>
+        <p>Frontend Architect</p>
+        <p class="company">WebFlow Technologies</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="faq" class="tab-content">
+      <h2>❓ FAQ</h2>
+      <div class="card">
+        <h3>Как зарегистрироваться?</h3>
+        <p>Регистрация доступна через бота. Заполните форму в разделе "Регистрация" и оплатите билет.</p>
+      </div>
+      <div class="card">
+        <h3>Можно ли получить сертификат?</h3>
+        <p>Да, сертификаты отправляются на email в течение 3 дней после мероприятия.</p>
+      </div>
+      <div class="card">
+        <h3>Будет ли онлайн-трансляция?</h3>
+        <p>Да, ключевые доклады транслируются. Ссылка будет в личном кабинете.</p>
+      </div>
+      <div class="card">
+        <h3>Предусмотрено ли питание?</h3>
+        <p>Да, включены кофе-брейки, обед и вечерний фуршет.</p>
+      </div>
+      <div class="card">
+        <h3>Можно ли вернуть билет?</h3>
+        <p>Возврат возможен за 7 дней до начала с удержанием 10% комиссии.</p>
+      </div>
+      <div class="card">
+        <h3>Где парковка?</h3>
+        <p>Платная парковка 200 руб/час. Рекомендуем метро "Технологическая".</p>
+      </div>
+    </div>
+
+    <!-- Карта -->
+    <div id="map" class="tab-content">
+      <h2>📍 Карта</h2>
+      <div class="map-container">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.617635%2C55.755814&z=10&text=Москва%20ул%20Инновационная%2015"></iframe>
+      </div>
+      <div class="card">
+        <h3>🏢 Конференц-центр "ТехноПарк"</h3>
+        <p>г. Москва, ул. Инновационная, д. 15, корпус 3</p>
+        <div class="action-buttons">
+          <button class="action-btn" onclick="window.open('https://yandex.ru/maps/?text=Москва+ул+Инновационная+15')">🗺️ Маршрут</button>
+          <button class="action-btn" onclick="copyAddress()">📋 Копировать</button>
+        </div>
+        <div class="section-title">🚇 Как добраться</div>
+        <p>🚇 Метро: "Технологическая", выход 3 (5 мин пешком)</p>
+        <p>🚌 Автобус: 125, 234, 456 до ост. "ТехноПарк"</p>
+        <p>🚕 Такси: зона высадки у главного входа</p>
+        <p>🚲 Велосипед: велопарковка у входа</p>
+      </div>
+    </div>
+
+    <!-- Регистрация -->
+    <div id="register" class="tab-content">
+      <h2>🎫 Регистрация</h2>
+      <div class="card">
+        <div class="form-group">
+          <label>ФИО *</label>
+          <input type="text" id="name" placeholder="Иванов Иван Иванович">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="email" placeholder="example@mail.ru">
+        </div>
+        <div class="form-group">
+          <label>Телефон *</label>
+          <input type="tel" id="phone" placeholder="+7 (999) 000-00-00">
+        </div>
+        <div class="form-group">
+          <label>Тип билета *</label>
+          <select id="ticketType">
+            <option value="">Выберите тип</option>
+            <option value="online">Онлайн - Бесплатно</option>
+            <option value="standard">Стандарт - 5 000 ₽</option>
+            <option value="vip">VIP - 15 000 ₽</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Компания</label>
+          <input type="text" id="company" placeholder="Название компании">
+        </div>
+        <div class="form-group">
+          <label>Должность</label>
+          <input type="text" id="position" placeholder="Ваша должность">
+        </div>
+        <div class="form-group">
+          <label>Пищевые ограничения</label>
+          <textarea id="dietary" rows="2" placeholder="Вегетарианское, без глютена..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitRegistration()">📤 Отправить заявку</button>
+      </div>
+      <div class="success-message" id="successMessage">
+        <h3>✅ Заявка отправлена!</h3>
+        <p>Мы свяжемся с вами в ближайшее время.</p>
+      </div>
+    </div>
+
+    <!-- Навигация -->
+    <nav class="tabs">
+      <button class="tab-btn active" onclick="showTab('schedule')"><span>📅</span>Расписание</button>
+      <button class="tab-btn" onclick="showTab('speakers')"><span>🎤</span>Спикеры</button>
+      <button class="tab-btn" onclick="showTab('faq')"><span>❓</span>FAQ</button>
+      <button class="tab-btn" onclick="showTab('map')"><span>📍</span>Карта</button>
+      <button class="tab-btn" onclick="showTab('register')"><span>🎫</span>Регистрация</button>
+    </nav>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    function copyAddress() {
+      navigator.clipboard.writeText('г. Москва, ул. Инновационная, д. 15, корпус 3');
+      tg.showAlert('Адрес скопирован!');
+    }
+
+    async function submitRegistration() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const ticketType = document.getElementById('ticketType').value;
+
+      if (!name || !email || !phone || !ticketType) {
+        tg.showAlert('Заполните обязательные поля!');
+        return;
+      }
+
+      const btn = document.querySelector('.submit-btn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Отправка...';
+
+      const data = {
+        action: 'registration',
+        name, email, phone, ticketType,
+        company: document.getElementById('company').value,
+        position: document.getElementById('position').value,
+        dietary: document.getElementById('dietary').value,
+        telegram_id: tg.initDataUnsafe?.user?.id || 'unknown',
+        telegram_username: tg.initDataUnsafe?.user?.username || 'unknown'
+      };
+
+      try {
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          document.querySelector('.card').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+          tg.showAlert('Заявка успешно отправлена!');
+        } else {
+          throw new Error('Ошибка');
+        }
+      } catch (error) {
+        tg.showAlert('Ошибка отправки. Попробуйте позже.');
+        btn.disabled = false;
+        btn.textContent = '📤 Отправить заявку';
+      }
+    }
+  </script>
+</body>
+</html>
