@@ -19,6 +19,7 @@ Telegram бот и веб-приложение для конференции ALF
 - **HTML/CSS/JavaScript** - Веб-приложение
 - **Telegram WebApp** - Интеграция с Telegram
 - **JSON** - Хранение данных
+- **Vercel** - Хостинг веб-приложения
 
 ## Установка и запуск
 
@@ -57,28 +58,50 @@ DEBUG=false
 python bot.py
 ```
 
-## Структура проекта
+## Деплой на Vercel
+
+Проект настроен для автоматического деплоя на Vercel.
+
+### Автоматический деплой
+
+1. Зарегистрируйтесь на [Vercel](https://vercel.com)
+2. Нажмите "Add New..." -> "Project"
+3. Импортируйте репозиторий `extreem0123-art/ALForum`
+4. Нажмите "Deploy"
+
+Vercel автоматически определит конфигурацию из `vercel.json` и задеплоит приложение.
+
+### Ручной деплой через Vercel CLI
+
+```bash
+npm i -g vercel
+vercel login
+vercel --prod
+```
+
+### Структура файлов для Vercel
 
 ```
 ALForum/
-├── bot.py                    # Telegram бот
-├── config/                   # Конфигурация
+├── vercel.json              # Конфигурация Vercel
+├── bot.py                   # Telegram бот (локальный запуск)
+├── config/                  # Конфигурация
 │   ├── __init__.py
 │   └── settings.py
-├── data/                     # Данные в JSON формате
-│   ├── schedule.json         # Расписание
-│   ├── speakers.json         # Спикеры
-│   ├── faq.json             # Вопросы и ответы
-│   └── venue.json           # Место проведения
-├── static/                   # Статические файлы
+├── static/                  # Статические файлы (деплоятся на Vercel)
+│   ├── index.html          # Главная страница
+│   ├── data/               # JSON данные
+│   │   ├── schedule.json
+│   │   ├── speakers.json
+│   │   ├── faq.json
+│   │   └── venue.json
 │   ├── css/
-│   │   └── main.css         # Стили
+│   │   └── main.css
 │   └── js/
-│       └── app.js           # Логика приложения
-├── index.html               # Главная страница
-├── requirements.txt         # Зависимости
-├── .env.example            # Шаблон переменных окружения
-└── .gitignore              # Игнорируемые файлы
+│       └── app.js
+├── requirements.txt
+├── .env.example
+└── .gitignore
 ```
 
 ## Конфигурация
@@ -86,23 +109,28 @@ ALForum/
 ### Переменные окружения
 
 - `TELEGRAM_BOT_TOKEN` - Токен вашего Telegram бота
-- `WEBAPP_URL` - URL вашего веб-приложения
+- `WEBAPP_URL` - URL вашего веб-приложения (после деплоя на Vercel)
 - `DEBUG` - Режим отладки (true/false)
 
-### Данные
+### Настройка URL в боте
 
-Все данные хранятся в JSON файлах в папке `data/`:
+После деплоя на Vercel, обновите URL в `bot.py`:
 
-- **schedule.json** - Расписание мероприятий
-- **speakers.json** - Информация о спикерах
-- **faq.json** - Часто задаваемые вопросы
-- **venue.json** - Информация о месте проведения
+```python
+WEB_APP_URL = "https://ваш-проект.vercel.app"
+```
+
+Или используйте переменную окружения:
+
+```python
+WEB_APP_URL = os.environ.get("WEB_APP_URL", "https://ваш-проект.vercel.app")
+```
 
 ## Разработка
 
 ### Добавление новых спикеров
 
-Отредактируйте `data/speakers.json`:
+Отредактируйте `static/data/speakers.json`:
 
 ```json
 {
@@ -118,7 +146,7 @@ ALForum/
 
 ### Добавление мероприятий
 
-Отредактируйте `data/schedule.json`:
+Отредактируйте `static/data/schedule.json`:
 
 ```json
 {
@@ -142,7 +170,7 @@ ALForum/
 
 ## Лицензия
 
-Этот проект распространяется под лицензией MIT. Подробнее см. в файле [LICENSE](LICENSE).
+Этот проект распространяется под лицензией MIT.
 
 ## Автор
 
