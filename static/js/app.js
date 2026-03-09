@@ -63,10 +63,10 @@ function initTelegram() {
 async function loadData() {
   try {
     const [scheduleRes, speakersRes, faqRes, venueRes] = await Promise.all([
-      fetch('./data/schedule.json'),
-      fetch('./data/speakers.json'),
-      fetch('./data/faq.json'),
-      fetch('./data/venue.json')
+      fetch('/data/schedule.json'),
+      fetch('/data/speakers.json'),
+      fetch('/data/faq.json'),
+      fetch('/data/venue.json')
     ]);
     
     if (!scheduleRes.ok || !speakersRes.ok || !faqRes.ok || !venueRes.ok) {

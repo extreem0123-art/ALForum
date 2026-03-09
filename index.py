@@ -1,18 +1,21 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+import os
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [[
-        InlineKeyboardButton(
-            text="📅 Открыть расписание",
-            web_app=WebAppInfo(url="https://al-forum.vercel.app/")
-        )
-    ]]
-    await update.message.reply_text(
-        "Добро пожаловать на TechConf 2026! 👋\nНажмите кнопку, чтобы открыть расписание.",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+PORT = int(os.environ.get("PORT", 3000))
 
-app = ApplicationBuilder().token("8607589730:AAF-HI8oLCsPBz10LDSl506D96Vy3h2d0rw").build()
-app.add_handler(CommandHandler("start", start))
-app.run_polling()
+class Handler(SimpleHTTPRequestHandler):
+    def end_headers(self):
+        # Enable CORS for Telegram WebApp
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        super().end_headers()
+
+def handler(event, context):
+    """Vercel serverless handler for static files"""
+    from static.index import app as static_app
+    return static_app(event, context)
+
+if __name__ == "__main__":
+    server = HTTPServer(('0.0.0.0', PORT), Handler)
+    print(f"🌐 Server running on http://localhost:{PORT}")
+    server.serve_forever()
