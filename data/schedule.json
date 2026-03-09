@@ -1,0 +1,94 @@
+{
+  "event": {
+    "name": "ALFA LIGHT FORUM",
+    "date": "15 мая 2026 года",
+    "location": "Москва, метро Технопарк",
+    "stats": {
+      "talks": 12,
+      "speakers": 8,
+      "days": 1
+    }
+  },
+  "days": [
+    {
+      "id": 0,
+      "name": "Пн 14 июня",
+      "events": [
+        {
+          "time": "09:00",
+          "type": "break",
+          "title": "Регистрация участников",
+          "room": "",
+          "speaker": null
+        },
+        {
+          "time": "10:00",
+          "type": "keynote",
+          "title": "Открытие. Технологии 2026: что изменилось и куда мы движемся",
+          "room": "Зал A",
+          "speaker": {
+            "name": "Дмитрий Волков",
+            "company": "CEO TechConf"
+          }
+        },
+        {
+          "time": "11:00",
+          "type": "talk",
+          "title": "ИИ в продакшне: опыт крупнейших компаний",
+          "room": "Зал A",
+          "speaker": {
+            "name": "Алексей Козлов",
+            "company": "Яндекс"
+          }
+        },
+        {
+          "time": "12:00",
+          "type": "talk",
+          "title": "Kubernetes на краю: edge computing практика",
+          "room": "Зал B",
+          "speaker": {
+            "name": "Мария Соколова",
+            "company": "VK Cloud"
+          }
+        },
+        {
+          "time": "13:00",
+          "type": "break",
+          "title": "Обед и нетворкинг",
+          "room": "",
+          "speaker": null
+        },
+        {
+          "time": "14:00",
+          "type": "workshop",
+          "title": "LLM Fine-tuning hands-on: от теории к практике",
+          "room": "Зал C",
+          "speaker": {
+            "name": "Наталья Петрова",
+            "company": "Sber AI"
+          }
+        },
+        {
+          "time": "15:30",
+          "type": "talk",
+          "title": "Безопасность в эпоху генеративного ИИ",
+          "room": "Зал A",
+          "speaker": {
+            "name": "Роман Морозов",
+            "company": "Kaspersky"
+          }
+        },
+        {
+          "time": "17:00",
+          "type": "keynote",
+          "title": "Дискуссия: Будущее российских технологий",
+          "room": "Зал A",
+          "speaker": {
+            "name": "Все спикеры дня",
+            "company": ""
+          }
+        }
+      ]
+    }
+  ]
+}

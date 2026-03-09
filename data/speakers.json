@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "name": "Дмитрий Волков",
+    "company": "CEO & Co-Founder, TechConf · ex-Google Engineering Director",
+    "badge": "★ Организатор",
+    "featured": true,
+    "topics": ["AI Strategy", "Leadership", "Product"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry"
+  },
+  {
+    "id": 2,
+    "name": "Алексей Козлов",
+    "company": "Head of ML, Яндекс",
+    "badge": "",
+    "featured": false,
+    "topics": ["ML/AI", "MLOps"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Aleksey"
+  },
+  {
+    "id": 3,
+    "name": "Мария Соколова",
+    "company": "Principal SRE, VK Cloud",
+    "badge": "",
+    "featured": false,
+    "topics": ["K8s", "Edge"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria"
+  },
+  {
+    "id": 4,
+    "name": "Наталья Петрова",
+    "company": "AI Research Lead, Sber AI",
+    "badge": "",
+    "featured": false,
+    "topics": ["LLM", "NLP"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Natalia"
+  },
+  {
+    "id": 5,
+    "name": "Роман Морозов",
+    "company": "CISO, Kaspersky Lab",
+    "badge": "",
+    "featured": false,
+    "topics": ["Security", "AI Risk"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Roman"
+  },
+  {
+    "id": 6,
+    "name": "Иван Лукьянов",
+    "company": "CTO, Т-Банк",
+    "badge": "",
+    "featured": false,
+    "topics": ["DevOps", "Platform"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ivan"
+  },
+  {
+    "id": 7,
+    "name": "Екатерина Смирнова",
+    "company": "Staff Engineer, Ozon Tech",
+    "badge": "",
+    "featured": false,
+    "topics": ["Frontend", "Arch"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Ekaterina"
+  },
+  {
+    "id": 8,
+    "name": "Андрей Зайцев",
+    "company": "Developer Advocate, JetBrains",
+    "badge": "",
+    "featured": false,
+    "topics": ["WASM", "Perf"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Andrey"
+  },
+  {
+    "id": 9,
+    "name": "Ольга Фёдорова",
+    "company": "Data Platform Lead, Авито",
+    "badge": "",
+    "featured": false,
+    "topics": ["Data Mesh", "DWH"],
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Olga"
+  }
+]
