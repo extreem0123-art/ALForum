@@ -7,6 +7,7 @@ load_dotenv()
 class Settings:
     TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
     WEBAPP_URL = os.getenv("WEBAPP_URL", "https://your-domain.com")
+    FORUM_NAME = os.getenv("FORUM_NAME", "ALFA LIGHT FORUM 2026")
     DEBUG = os.getenv("DEBUG", "false").lower() == "true"
     
     @classmethod
