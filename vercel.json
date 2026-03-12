@@ -7,22 +7,6 @@
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/static/index.html"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/static/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/static/js/$1"
-    },
-    {
-      "src": "/data/(.*)",
-      "dest": "/static/data/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "/static/$1"
     }
