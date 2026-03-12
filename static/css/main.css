@@ -128,7 +128,7 @@ body {
   font-size: 72px;
   line-height: 0.9;
   letter-spacing: 2px;
-  color: #ff0000;
+  color: #ffffff;
   margin-bottom: 16px;
   text-shadow: 
     0 0 5px #ff0000,
@@ -156,7 +156,7 @@ body {
   }
 }
 .hero h1 span {
-  color: #ff0000;
+  color: #ffffff;
   text-shadow: 
     0 0 5px #ff0000,
     0 0 10px #ff0000,
