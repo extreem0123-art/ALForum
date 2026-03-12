@@ -10,10 +10,6 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         super().end_headers()
 
-def handler(event, context):
-    """Vercel serverless handler for static files"""
-    from static.index import app as static_app
-    return static_app(event, context)
 
 if __name__ == "__main__":
     server = HTTPServer(('0.0.0.0', PORT), Handler)
